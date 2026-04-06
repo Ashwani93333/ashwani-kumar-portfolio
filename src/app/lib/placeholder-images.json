@@ -1,0 +1,35 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "hero-bg",
+      "description": "Abstract tech background",
+      "imageUrl": "https://picsum.photos/seed/portfoforge1/1200/800",
+      "imageHint": "abstract technology"
+    },
+    {
+      "id": "profile-pic",
+      "description": "Professional profile placeholder",
+      "imageUrl": "https://picsum.photos/seed/portfoforge2/400/400",
+      "imageHint": "professional man"
+    },
+    {
+      "id": "project-1",
+      "description": "E-commerce dashboard project",
+      "imageUrl": "https://picsum.photos/seed/portfoforge3/600/400",
+      "imageHint": "dashboard software"
+    },
+    {
+      "id": "project-2",
+      "description": "Mobile app interface",
+      "imageUrl": "https://picsum.photos/seed/portfoforge4/600/400",
+      "imageHint": "mobile app"
+    },
+    {
+      "id": "blog-1",
+      "description": "Tech blog post cover",
+      "imageUrl": "https://picsum.photos/seed/portfoforge5/800/500",
+      "imageHint": "coding workspace"
+    }
+  ]
+}
