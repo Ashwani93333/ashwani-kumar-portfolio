@@ -1,41 +1,54 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronDown } from "lucide-react";
-import Link from "next/link";
+import { ArrowRight, Download, Sparkles } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center section-padding overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_-20%,hsl(var(--primary)/0.15),transparent_70%)]" />
+    <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -z-10" />
       
-      <div className="relative z-10 text-center max-w-4xl opacity-0 animate-reveal">
-        <div className="inline-flex items-center gap-2 px-3 py-1 mb-8 border rounded-full border-white/5 bg-white/5 text-[10px] uppercase tracking-[0.2em] font-medium text-muted-foreground">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          Available for new opportunities
+      <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold tracking-[0.2em] uppercase animate-reveal">
+          <Sparkles className="w-3 h-3" />
+          Full Stack Architect
         </div>
-        
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold mb-8 leading-[1.1] tracking-tighter text-gradient">
-          Crafting digital experiences <br /> with precision & purpose.
+
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold leading-[1.1] tracking-tighter animate-reveal delay-1">
+          Crafting Digital <br /> 
+          <span className="text-gradient">Experiences</span> With <br />
+          Precision & Code.
         </h1>
-        
-        <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
-          Full-stack developer focused on building minimalist, performant, and accessible web applications that solve real-world problems.
+
+        <p className="text-muted-foreground text-sm md:text-base max-w-xl mx-auto leading-relaxed animate-reveal delay-2">
+          I build scalable applications using modern stacks. Focused on performance, accessibility, and high-quality user interfaces.
         </p>
-        
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button className="rounded-full px-8 py-6 h-auto bg-foreground text-background hover:bg-foreground/90 transition-all group">
-            Explore My Work
-            <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-reveal delay-3 pt-4">
+          <Button size="lg" className="bg-primary hover:bg-primary/90 rounded-full px-8 text-[12px] font-bold group">
+            View My Work
+            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Button>
-          <Button variant="outline" className="rounded-full px-8 py-6 h-auto border-white/10 hover:bg-white/5">
+          <Button variant="outline" size="lg" className="rounded-full border-white/10 bg-white/5 hover:bg-white/10 text-[12px] font-bold">
+            <Download className="mr-2 w-4 h-4" />
             Download Resume
           </Button>
         </div>
-      </div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-40">
-        <ChevronDown className="w-5 h-5" />
+        <div className="pt-20 grid grid-cols-2 md:grid-cols-4 gap-8 animate-reveal delay-3">
+          {[
+            { label: "Completed Projects", value: "24+" },
+            { label: "Years Experience", value: "06" },
+            { label: "Open Source", value: "12" },
+            { label: "Satisfied Clients", value: "100%" },
+          ].map((stat, i) => (
+            <div key={i} className="text-center">
+              <div className="text-2xl font-headline font-bold text-white">{stat.value}</div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1 font-medium">{stat.label}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

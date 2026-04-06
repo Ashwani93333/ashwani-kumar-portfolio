@@ -1,82 +1,81 @@
 "use client";
 
-import { Project } from "@/lib/types";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
-const SAMPLE_PROJECTS: Project[] = [
+const projects = [
   {
-    id: "1",
-    title: "EcoSphere Analytics",
-    description: "A real-time environmental monitoring dashboard with complex data visualizations using D3.js and Next.js.",
-    imageUrl: PlaceHolderImages.find(img => img.id === "project-1")?.imageUrl || "",
-    techStack: ["Next.js", "TypeScript", "D3.js", "Firebase"],
-    link: "https://example.com",
-    createdAt: Date.now()
+    title: "QuantumFlow CRM",
+    description: "Enterprise-grade customer relationship management system with real-time analytics and predictive lead scoring.",
+    image: "https://picsum.photos/seed/p1/600/400",
+    tags: ["Next.js", "PostgreSQL", "Tailwind"],
+    link: "#",
+    github: "#"
   },
   {
-    id: "2",
-    title: "NovaFlow CRM",
-    description: "Cloud-native customer relationship management tool designed for small startups and independent creators.",
-    imageUrl: PlaceHolderImages.find(img => img.id === "project-2")?.imageUrl || "",
-    techStack: ["React", "Node.js", "Tailwind", "PostgreSQL"],
-    link: "https://example.com",
-    createdAt: Date.now()
+    title: "EcoSphere Dashboard",
+    description: "Sustainability tracking platform for green-tech startups to monitor carbon footprint and energy efficiency.",
+    image: "https://picsum.photos/seed/p2/600/400",
+    tags: ["React", "D3.js", "Firebase"],
+    link: "#",
+    github: "#"
+  },
+  {
+    title: "NovaPay System",
+    description: "Secure payment gateway integration for global e-commerce, supporting 20+ currencies and instant settlement.",
+    image: "https://picsum.photos/seed/p3/600/400",
+    tags: ["Stripe", "TypeScript", "Node.js"],
+    link: "#",
+    github: "#"
   }
 ];
 
 export function Projects() {
   return (
-    <section id="work" className="section-padding bg-background">
-      <div className="max-w-5xl mx-auto">
-        <div className="mb-20 text-center opacity-0 animate-reveal">
-          <h2 className="text-3xl font-headline font-bold mb-4 tracking-tighter uppercase">Selected Work</h2>
-          <p className="text-xs text-muted-foreground uppercase tracking-widest">A collection of projects I'm proud of</p>
-        </div>
+    <section id="projects" className="section-padding max-w-7xl mx-auto space-y-16">
+      <div className="space-y-4">
+        <h2 className="text-3xl font-headline font-bold tracking-tighter">Featured Projects</h2>
+        <p className="text-muted-foreground text-sm max-w-lg">
+          A selection of recent works focusing on complex systems and elegant user experiences.
+        </p>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {SAMPLE_PROJECTS.map((project, idx) => (
-            <div 
-              key={project.id} 
-              className={`opacity-0 animate-reveal delay-${idx + 1}`}
-            >
-              <div className="group relative rounded-2xl overflow-hidden glass-card aspect-video mb-6">
-                <img 
-                  src={project.imageUrl} 
-                  alt={project.title}
-                  className="w-full h-full object-cover grayscale opacity-50 transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0 group-hover:opacity-100"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                  <div className="flex gap-4">
-                    <Link href={project.link || "#"} className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors">
-                      <ExternalLink className="w-4 h-4" />
-                    </Link>
-                    <Link href="#" className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors">
-                      <Github className="w-4 h-4" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="space-y-3 px-2">
-                <div className="flex flex-wrap gap-2">
-                  {project.techStack.map(tech => (
-                    <span key={tech} className="text-[9px] uppercase tracking-widest font-semibold text-muted-foreground">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                <h3 className="text-xl font-headline font-bold tracking-tight">{project.title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                  {project.description}
-                </p>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {projects.map((project, i) => (
+          <Card key={i} className="glass-card group overflow-hidden border-white/5 bg-transparent">
+            <div className="relative h-48 overflow-hidden">
+              <img 
+                src={project.image} 
+                alt={project.title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                data-ai-hint="software project"
+              />
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+                <Link href={project.github} className="p-2 rounded-full bg-white/10 hover:bg-primary/20 transition-colors">
+                  <Github className="w-5 h-5" />
+                </Link>
+                <Link href={project.link} className="p-2 rounded-full bg-white/10 hover:bg-primary/20 transition-colors">
+                  <ExternalLink className="w-5 h-5" />
+                </Link>
               </div>
             </div>
-          ))}
-        </div>
+            <CardContent className="p-6 space-y-4">
+              <div className="flex justify-between items-start">
+                <h3 className="font-headline font-bold text-lg">{project.title}</h3>
+                <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                {project.description}
+              </p>
+              <div className="flex flex-wrap gap-2 pt-2">
+                {project.tags.map(tag => (
+                  <span key={tag} className="badge-outline text-primary/80 border-primary/10 bg-primary/5">{tag}</span>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </section>
   );

@@ -4,26 +4,26 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
+    --background: 240 10% 8%;
     --foreground: 0 0% 98%;
-    --card: 240 10% 6%;
+    --card: 240 10% 10%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    --popover: 240 10% 8%;
     --popover-foreground: 0 0% 98%;
-    --primary: 217.2 91.2% 59.8%;
+    --primary: 217.2 91.2% 68.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 12%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 199 89% 77%;
+    --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 }
 
@@ -32,9 +32,11 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body text-sm antialiased selection:bg-primary/30;
-    background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.03) 1px, transparent 0);
-    background-size: 24px 24px;
+    @apply bg-background text-foreground font-body text-[13px] antialiased selection:bg-primary/30;
+    background-image: 
+      linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline tracking-tight;
@@ -53,16 +55,20 @@
   .section-padding {
     @apply py-24 px-6 md:px-12 lg:px-24;
   }
+
+  .badge-outline {
+    @apply px-2 py-0.5 rounded-full border border-white/10 text-[10px] uppercase tracking-wider font-semibold bg-white/5;
+  }
 }
 
 .animate-reveal {
-  animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes reveal {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;

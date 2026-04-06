@@ -1,50 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import { Rocket } from "lucide-react";
+import { Rocket, Github, Twitter, Linkedin } from "lucide-react";
 
 export function Footer() {
-  const year = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-20 px-6 border-t border-white/5 bg-background overflow-hidden">
-      <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
-        <div className="flex items-center gap-2 mb-12 opacity-0 animate-reveal">
-          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+    <footer className="py-12 px-6 md:px-12 border-t border-white/5 bg-background">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="flex flex-col items-center md:items-start gap-4">
+          <Link href="/" className="flex items-center gap-2">
             <Rocket className="w-5 h-5 text-primary" />
-          </div>
-          <span className="font-headline font-bold text-lg tracking-tighter">PORTFOFORGE</span>
-        </div>
-
-        <div className="flex gap-12 mb-16 opacity-0 animate-reveal delay-1">
-          {["Work", "Writing", "About", "Twitter", "GitHub"].map((link) => (
-            <Link 
-              key={link} 
-              href="#" 
-              className="text-[10px] uppercase tracking-[0.3em] font-bold text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {link}
-            </Link>
-          ))}
-        </div>
-
-        <div className="w-full pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 opacity-0 animate-reveal delay-2">
-          <p className="text-[9px] uppercase tracking-widest text-muted-foreground">
-            © {year} PORTFOFORGE. BUILT WITH PRECISION.
+            <span className="font-headline font-bold text-xl tracking-tighter">PortfoForge</span>
+          </Link>
+          <p className="text-muted-foreground text-[11px] max-w-xs text-center md:text-left leading-relaxed">
+            Built with Next.js, Genkit, and Tailwind CSS. <br />
+            Designed for high-performance digital showcases.
           </p>
-          <div className="flex items-center gap-4 text-[9px] uppercase tracking-widest text-muted-foreground">
-            <Link href="#" className="hover:text-foreground">Privacy Policy</Link>
-            <span className="opacity-20">•</span>
-            <Link href="#" className="hover:text-foreground">Terms of Service</Link>
-          </div>
         </div>
-      </div>
-      
-      {/* Huge subtle text decoration */}
-      <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 select-none pointer-events-none opacity-[0.02] whitespace-nowrap">
-        <span className="text-[20rem] font-headline font-bold uppercase tracking-tighter">
-          PORTFOFORGE
-        </span>
+
+        <div className="flex items-center gap-6">
+          <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
+            <Github className="w-5 h-5" />
+          </Link>
+          <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
+            <Twitter className="w-5 h-5" />
+          </Link>
+          <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
+            <Linkedin className="w-5 h-5" />
+          </Link>
+        </div>
+
+        <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">
+          © {currentYear} All Rights Reserved
+        </div>
       </div>
     </footer>
   );
