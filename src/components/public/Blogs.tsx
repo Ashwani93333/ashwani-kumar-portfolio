@@ -1,65 +1,55 @@
+
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import Link from "next/link";
 
-const blogs = [
-  {
-    title: "The Future of Web Rendering",
-    summary: "Exploring the nuances between Server Components, Static Exporting, and Edge Computing.",
-    date: "March 15, 2024",
-    readTime: "6 min read",
-    image: "https://picsum.photos/seed/b1/800/500"
-  },
-  {
-    title: "Scaling Design Systems",
-    summary: "How to maintain consistency across large-scale applications with Atomic Design principles.",
-    date: "Feb 28, 2024",
-    readTime: "8 min read",
-    image: "https://picsum.photos/seed/b2/800/500"
-  }
-];
-
 export function Blogs() {
+  const posts = [
+    {
+      title: "Mastering Spring Boot Concurrency",
+      excerpt: "A deep dive into thread pools, futures, and optimizing throughput in Java applications.",
+      date: "Oct 12, 2024",
+      readTime: "8 min read"
+    },
+    {
+      title: "Why Go is winning the systems game",
+      excerpt: "Exploring the power of goroutines and static binaries for modern infrastructure.",
+      date: "Sep 28, 2024",
+      readTime: "5 min read"
+    }
+  ];
+
   return (
-    <section id="blog" className="section-padding bg-white/[0.02] border-y border-white/5">
-      <div className="max-w-7xl mx-auto space-y-12">
-        <div className="flex justify-between items-end">
-          <div className="space-y-4">
-            <h2 className="text-3xl font-headline font-bold tracking-tighter">Insights</h2>
-            <p className="text-muted-foreground text-sm max-w-lg">
-              Thoughts on technology, engineering, and digital architecture.
-            </p>
-          </div>
-          <Link href="#" className="hidden sm:flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:gap-3 transition-all">
-            All Articles <ArrowRight className="w-4 h-4" />
-          </Link>
+    <section id="blog" className="animate-reveal opacity-0" style={{ animationDelay: '0.6s' }}>
+      <div className="space-y-12">
+        <div className="space-y-2">
+          <h2 className="text-xs uppercase tracking-widest font-bold text-primary">Insights</h2>
+          <h3 className="text-2xl font-headline font-bold">Latest Articles</h3>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {blogs.map((blog, i) => (
-            <Card key={i} className="glass-card flex flex-col md:flex-row border-white/5 overflow-hidden">
-              <div className="md:w-1/3 relative h-48 md:h-auto">
-                <img 
-                  src={blog.image} 
-                  alt={blog.title}
-                  className="w-full h-full object-cover"
-                  data-ai-hint="blog tech"
-                />
-              </div>
-              <div className="md:w-2/3 p-6 space-y-4 flex flex-col justify-center">
-                <div className="flex items-center gap-4 text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">
-                  <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {blog.date}</span>
-                  <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {blog.readTime}</span>
+        <div className="space-y-4">
+          {posts.map((post, idx) => (
+            <Link key={idx} href="#" className="block group">
+              <div className="glass-card p-6 border-white/5 group-hover:border-primary/30 transition-all flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-4 text-[10px] uppercase font-bold tracking-widest text-muted-foreground">
+                    <span>{post.date}</span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      {post.readTime}
+                    </span>
+                  </div>
+                  <h4 className="text-xl font-headline font-bold group-hover:text-primary transition-colors">{post.title}</h4>
+                  <p className="text-muted-foreground text-xs leading-relaxed max-w-xl">
+                    {post.excerpt}
+                  </p>
                 </div>
-                <h3 className="font-headline font-bold text-xl group-hover:text-primary transition-colors">{blog.title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{blog.summary}</p>
-                <Link href="#" className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-primary group">
-                  Read More <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                <div className="hidden md:block group-hover:translate-x-2 transition-transform">
+                  <ArrowRight className="w-6 h-6 text-primary" />
+                </div>
               </div>
-            </Card>
+            </Link>
           ))}
         </div>
       </div>
