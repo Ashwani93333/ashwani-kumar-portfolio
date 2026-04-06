@@ -1,85 +1,80 @@
-
 "use client";
 
-import Image from "next/image";
+import { Project } from "@/lib/types";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExternalLink, Github } from "lucide-react";
+import Link from "next/link";
 
-const PROJECTS = [
+const SAMPLE_PROJECTS: Project[] = [
   {
+    id: "1",
     title: "EcoSphere Analytics",
-    description: "Real-time environmental monitoring dashboard with AI-powered trend prediction and data visualization.",
-    image: "https://picsum.photos/seed/p1/600/400",
-    tags: ["Next.js", "TypeScript", "D3.js", "Firebase"],
-    link: "#",
-    github: "#"
+    description: "A real-time environmental monitoring dashboard with complex data visualizations using D3.js and Next.js.",
+    imageUrl: PlaceHolderImages.find(img => img.id === "project-1")?.imageUrl || "",
+    techStack: ["Next.js", "TypeScript", "D3.js", "Firebase"],
+    link: "https://example.com",
+    createdAt: Date.now()
   },
   {
+    id: "2",
     title: "NovaFlow CRM",
-    description: "A streamlined customer relationship management tool designed for small creative agencies to manage leads.",
-    image: "https://picsum.photos/seed/p2/600/400",
-    tags: ["React", "Tailwind", "Node.js", "PostgreSQL"],
-    link: "#",
-    github: "#"
-  },
-  {
-    title: "Zenith Commerce",
-    description: "Modern headless e-commerce storefront with high performance scoring and seamless Stripe integration.",
-    image: "https://picsum.photos/seed/p3/600/400",
-    tags: ["Next.js", "Stripe", "Prismic", "Vercel"],
-    link: "#",
-    github: "#"
+    description: "Cloud-native customer relationship management tool designed for small startups and independent creators.",
+    imageUrl: PlaceHolderImages.find(img => img.id === "project-2")?.imageUrl || "",
+    techStack: ["React", "Node.js", "Tailwind", "PostgreSQL"],
+    link: "https://example.com",
+    createdAt: Date.now()
   }
 ];
 
 export function Projects() {
   return (
-    <section id="projects" className="py-24 bg-secondary/30">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-          <div className="space-y-2">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline">Selected Projects</h2>
-            <p className="text-muted-foreground">A collection of things I've built recently.</p>
-          </div>
+    <section id="work" className="section-padding bg-background">
+      <div className="max-w-5xl mx-auto">
+        <div className="mb-20 text-center opacity-0 animate-reveal">
+          <h2 className="text-3xl font-headline font-bold mb-4 tracking-tighter uppercase">Selected Work</h2>
+          <p className="text-xs text-muted-foreground uppercase tracking-widest">A collection of projects I'm proud of</p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PROJECTS.map((project, idx) => (
-            <Card key={idx} className="glass-card group hover:scale-[1.02] transition-transform duration-300 overflow-hidden">
-              <CardHeader className="p-0">
-                <div className="relative aspect-video overflow-hidden">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    data-ai-hint="software project screenshot"
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                    <a href={project.github} className="p-2 bg-background/80 rounded-full hover:bg-primary transition-colors">
-                      <Github className="w-5 h-5" />
-                    </a>
-                    <a href={project.link} className="p-2 bg-background/80 rounded-full hover:bg-primary transition-colors">
-                      <ExternalLink className="w-5 h-5" />
-                    </a>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {SAMPLE_PROJECTS.map((project, idx) => (
+            <div 
+              key={project.id} 
+              className={`opacity-0 animate-reveal delay-${idx + 1}`}
+            >
+              <div className="group relative rounded-2xl overflow-hidden glass-card aspect-video mb-6">
+                <img 
+                  src={project.imageUrl} 
+                  alt={project.title}
+                  className="w-full h-full object-cover grayscale opacity-50 transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0 group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                  <div className="flex gap-4">
+                    <Link href={project.link || "#"} className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors">
+                      <ExternalLink className="w-4 h-4" />
+                    </Link>
+                    <Link href="#" className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors">
+                      <Github className="w-4 h-4" />
+                    </Link>
                   </div>
                 </div>
-              </CardHeader>
-              <CardContent className="p-6 space-y-4">
-                <CardTitle className="font-headline text-xl">{project.title}</CardTitle>
-                <p className="text-sm text-muted-foreground line-clamp-3">
-                  {project.description}
-                </p>
+              </div>
+              
+              <div className="space-y-3 px-2">
                 <div className="flex flex-wrap gap-2">
-                  {project.tags.map(tag => (
-                    <Badge key={tag} variant="secondary" className="bg-white/5 font-normal">
-                      {tag}
-                    </Badge>
+                  {project.techStack.map(tech => (
+                    <span key={tech} className="text-[9px] uppercase tracking-widest font-semibold text-muted-foreground">
+                      {tech}
+                    </span>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+                <h3 className="text-xl font-headline font-bold tracking-tight">{project.title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  {project.description}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
       </div>
