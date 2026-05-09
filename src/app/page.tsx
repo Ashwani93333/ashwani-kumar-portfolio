@@ -1,5 +1,6 @@
 
-
+"use client";
+import { useEffect, useState } from "react";
 
 import { Navbar } from "@/components/public/Navbar";
 import { Hero } from "@/components/public/Hero";
@@ -17,6 +18,13 @@ import { Education } from "@/components/public/Education";
 
 
 export default function Home() {
+
+  useEffect(() => {
+    // Track page visit
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/feature/visitor`, {
+      method: "POST",
+    }).catch((err) => console.error("Visit tracking failed:", err));
+  }, []);
   
   return (
     <main className="relative min-h-screen bg-background">

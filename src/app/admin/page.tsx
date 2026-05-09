@@ -44,6 +44,10 @@ export default function AdminDashboard() {
   const [recentMessages, setRecentMessages] = useState<ContactMessage[]>([]);
   const [messageCount, setMessageCount] = useState(0);
   const [projectCount, setProjectCount] = useState(0);
+    const [totalVisitors, setTotalVisitors] = useState(0);
+      const [uniqueVisitors, setUniqueVisitors] = useState(0);
+
+
   const [blogCount, setBlogCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -58,6 +62,8 @@ export default function AdminDashboard() {
   const CONTACT_API = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/contact`;
   const PROJECT_API = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/projects`;
   const BLOG_API = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/blog`;
+  const VISITOR_API = `${process.env.NEXT_PUBLIC_API_BASE_URL}/Feature/visitor`;
+
 
   //Blog Post
   // ADD THESE STATES near your other useState hooks
@@ -185,6 +191,31 @@ const handleCreateBlog = async () => {
     }
   };
 
+
+  // fetch visitor stats
+  const fetchVisitor = async () => {
+    try {
+    
+      const response = await fetch(VISITOR_API, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch visitor stats");
+      }
+
+      const data = await response.json();
+      setTotalVisitors(data.totalVisits);
+      setUniqueVisitors(data.uniqueVisitors);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load projects.",
+        variant: "destructive",
+      });
+    }
+  };
+
   /**
    * FETCH PROJECTS
    */
@@ -305,6 +336,7 @@ const handleCreateBlog = async () => {
       setLoading(true);
       await Promise.all([
         fetchDashboardMessages(),
+        fetchVisitor(),
         fetchProjects(),
         fetchBlog(),
       ]);
@@ -337,10 +369,16 @@ const handleCreateBlog = async () => {
       color: "text-emerald-400",
     },
     {
-      label: "Site Visitors",
-      value: "55",
+      label: "Total Visitors",
+      value: totalVisitors.toString(),
       icon: TrendingUp,
       color: "text-orange-400",
+    },
+      {
+      label: "Unique Visitors",
+      value: uniqueVisitors.toString(),
+      icon: TrendingUp,
+      color: "text-cyan-400",
     },
   ];
 
