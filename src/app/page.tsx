@@ -1,6 +1,6 @@
+"use client";
 
-
-
+import { useEffect } from "react";
 import { Navbar } from "@/components/public/Navbar";
 import { Hero } from "@/components/public/Hero";
 import { Projects } from "@/components/public/Projects";
@@ -17,6 +17,12 @@ import { Education } from "@/components/public/Education";
 
 
 export default function Home() {
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/feature/visitor`, {
+      method: "POST",
+    });
+  }, []);
   
   return (
     <main className="relative min-h-screen bg-background">
