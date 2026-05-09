@@ -29,7 +29,6 @@ import {
   FileText,
   ImageIcon,
 } from "lucide-react";
-import { AIGenerator } from "@/components/admin/AIGenerator";
 import { useToast } from "@/hooks/use-toast";
 
 const API_BASE_URL =
@@ -66,7 +65,7 @@ export default function ManageBlogs() {
   // Fetch all blogs
   const fetchBlogs = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/blog`);
+      const response = await fetch(`${API_BASE_URL}/api/blog`);
       const data = await response.json();
       setBlogs(data);
     } catch (error) {
@@ -100,7 +99,7 @@ export default function ManageBlogs() {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/blog`, {
+      const response = await fetch(`${API_BASE_URL}/api/blog`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -176,7 +175,7 @@ export default function ManageBlogs() {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/blog/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/blog/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -272,16 +271,7 @@ export default function ManageBlogs() {
                 onChange={handleChange}
               />
 
-              <AIGenerator
-                type="blog"
-                onGenerated={(generated) =>
-                  setFormData({
-                    ...formData,
-                    content: generated,
-                  })
-                }
-              />
-
+            
               <div className="flex justify-end gap-3">
                 <Button
                   variant="outline"

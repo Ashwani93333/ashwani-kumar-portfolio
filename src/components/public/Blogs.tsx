@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Clock } from "lucide-react";
 import Link from "next/link";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface BlogPost {
   id: number;
@@ -66,7 +65,7 @@ export function Blogs() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/blog`);
+        const response = await fetch(`${API_BASE_URL}/api/blog`);
         if (!response.ok) {
           throw new Error("Failed to fetch blogs");
         }
