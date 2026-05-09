@@ -4,8 +4,7 @@
 import { useState } from "react";
 import { Send, Mail, MapPin, Linkedin } from "lucide-react";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
@@ -41,7 +40,7 @@ export function ContactForm() {
       /*
        * STEP 1: Save contact form in DB
        */
-      const contactResponse = await fetch(`${API_BASE_URL}/contact`, {
+      const contactResponse = await fetch(`${API_BASE_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +62,7 @@ export function ContactForm() {
         msg: formData.message,
       };
 
-      const emailResponse = await fetch(`${API_BASE_URL}/email`, {
+      const emailResponse = await fetch(`${API_BASE_URL}/api/email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
