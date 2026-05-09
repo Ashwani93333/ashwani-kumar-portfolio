@@ -3,8 +3,49 @@
 
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Terminal } from "lucide-react";
 
 export function Hero() {
+
+  // ✅ STATES
+    const [fullName, setFullName] = useState("Ashwani Kumar");
+    const [professionalBio, setProfessionalBio] = useState("");
+    const[professionalRole,setProfessionalRole] = useState("Backend Engineer");
+    const [loading, setLoading] = useState(true);
+  
+    // ✅ FETCH PROFILE DATA
+    useEffect(() => {
+      const fetchProfile = async () => {
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/profile`
+          );
+  
+          if (!res.ok) throw new Error("Failed to fetch");
+  
+          const data = await res.json();
+  
+          // ✅ SET DATA FROM API
+          setFullName(data.fullName || "Ashwani Kumar");
+          setProfessionalBio(
+            data.professionalBio ||
+              "Java + Spring Boot for production backend. Learning Go for systems. React / Next.js for interfaces."
+          );
+          setProfessionalRole(
+            data.professionalRole ||
+              "Backend Engineer"
+          );
+         
+        } catch (err) {
+          console.error("Error fetching profile:", err);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchProfile();
+    }, []);
   return (
     <section className="pt-32 pb-16 animate-reveal opacity-0">
       <div className="space-y-8">
@@ -13,14 +54,14 @@ export function Hero() {
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             Available for new opportunities
           </div>
-          <h1 className="text-5xl md:text-7xl font-headline font-bold leading-[0.9] tracking-tight text-gradient">
-            Prince Pal. <br />
-            Backend Developer.
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
+            {loading ? "Ashwani Kumar" : fullName}.<br />
+            {loading ? "Backend Engineer" : professionalRole}.
           </h1>
         </div>
         
         <p className="text-muted-foreground text-sm max-w-xl leading-relaxed">
-          I build robust, scalable backends with Java and Spring Boot. Currently exploring systems engineering with Go and crafting clean, high-performance web experiences.
+          {loading ? "fetching data..." : professionalBio}
         </p>
 
         <div className="flex flex-wrap items-center gap-6">
@@ -31,9 +72,9 @@ export function Hero() {
           </Link>
           <div className="flex items-center gap-4">
             {[
-              { icon: Github, href: "https://github.com" },
-              { icon: Linkedin, href: "https://linkedin.com" },
-              { icon: Mail, href: "mailto:hello@example.com" }
+              { icon: Github, href: "https://github.com/Ashwani93333" },
+              { icon: Linkedin, href: "https://www.linkedin.com/in/ashwani-kumar-128240383/" },
+              { icon: Mail, href: "mailto:ashwanikumar93333@gmail.com" }
             ].map((social, i) => (
               <Link 
                 key={i} 
