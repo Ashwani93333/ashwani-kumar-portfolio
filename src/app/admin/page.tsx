@@ -49,6 +49,10 @@ export default function AdminDashboard() {
 
 
   const [blogCount, setBlogCount] = useState(0);
+  const [totalVisitors, setTotalVisitors] = useState(0);
+  const [uniqueVisitors, setUniqueVisitors] = useState(0);
+
+
   const [loading, setLoading] = useState(true);
 
   // PROJECT DIALOG STATE
@@ -62,8 +66,6 @@ export default function AdminDashboard() {
   const CONTACT_API = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/contact`;
   const PROJECT_API = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/projects`;
   const BLOG_API = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/blog`;
-  const VISITOR_API = `${process.env.NEXT_PUBLIC_API_BASE_URL}/Feature/visitor`;
-
 
   //Blog Post
   // ADD THESE STATES near your other useState hooks
@@ -142,6 +144,27 @@ const handleCreateBlog = async () => {
     });
   }
 };
+
+
+  // TRACK VISITOR
+
+  const fetchVisitors = async () => {
+    try {
+      const response = await fetch(VISITOR_API, {
+        method: "GET",
+      });
+
+      const data = await response.json();
+      setTotalVisitors(data.totalVisits);
+      setUniqueVisitors(data.uniqueVisitors);
+
+      if (!response.ok) {
+        throw new Error("Failed to track visitor");
+      }
+    } catch (error) {
+      console.error("Error tracking visitor:", error);
+    }
+  };
 
 
   /**
@@ -336,9 +359,9 @@ const handleCreateBlog = async () => {
       setLoading(true);
       await Promise.all([
         fetchDashboardMessages(),
-        fetchVisitor(),
         fetchProjects(),
         fetchBlog(),
+        
       ]);
       setLoading(false);
     };
@@ -369,8 +392,8 @@ const handleCreateBlog = async () => {
       color: "text-emerald-400",
     },
     {
-      label: "Total Visitors",
-      value: totalVisitors.toString(),
+      label: "Site Visitors",
+      value: "55",
       icon: TrendingUp,
       color: "text-orange-400",
     },
