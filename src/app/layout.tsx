@@ -4,8 +4,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'PortfoForge | Dynamic Professional Portfolio',
-  description: 'A professional portfolio for modern creators.',
+  title: "𝑨𝒔𝒉𝒘𝒂𝒏𝒊 𝑲𝒖𝒎𝒂𝒓 | 𝑩𝒂𝒄𝒌𝒆𝒏𝒅 𝑫𝒆𝒗𝒆𝒍𝒐𝒑𝒆𝒓",
+  description: "𝑳𝒆𝒕’𝒔 𝒄𝒐𝒏𝒏𝒆𝒄𝒕 𝒂𝒏𝒅 𝒄𝒓𝒆𝒂𝒕𝒆 𝒊𝒎𝒑𝒂𝒄𝒕𝒇𝒖𝒍 𝒕𝒆𝒄𝒉𝒏𝒐𝒍𝒐𝒈𝒚",
 };
 
 export default function RootLayout({
