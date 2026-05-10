@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { Send, Mail, MapPin, Linkedin } from "lucide-react";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL =  `${process.env.NEXT_PUBLIC_API_BASE_URL}`;
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
@@ -55,23 +54,23 @@ export function ContactForm() {
       /*
        * STEP 2: Send email notification
        */
-      const emailPayload = {
-        recipient: formData.email,
-        subject: formData.subject,
-        msg: formData.message,
-      };
+      // const emailPayload = {
+      //   recipient: formData.email,
+      //   subject: formData.subject,
+      //   msg: formData.message,
+      // };
 
-      const emailResponse = await fetch(`${API_BASE_URL}/api/email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(emailPayload),
-      });
+      // const emailResponse = await fetch(`${API_BASE_URL}/api/email`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(emailPayload),
+      // });
 
-      if (!emailResponse.ok) {
-        throw new Error("Message saved but email failed");
-      }
+      // if (!emailResponse.ok) {
+      //   throw new Error("Message saved but email failed");
+      // }
 
       setSuccessMessage(
         "Message sent successfully! I’ll get back to you soon."
