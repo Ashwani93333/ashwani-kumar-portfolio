@@ -1,10 +1,10 @@
-
 "use client";
 
 import { useState } from "react";
 import { Send, Mail, MapPin, Linkedin } from "lucide-react";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL;
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
@@ -35,7 +35,7 @@ export function ContactForm() {
     setErrorMessage("");
 
     try {
-      const adminToken = localStorage.getItem("accessToken") || "";
+      console.log("API URL:", API_BASE_URL);
 
       /*
        * STEP 1: Save contact form in DB
@@ -44,7 +44,6 @@ export function ContactForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${adminToken}`,
         },
         body: JSON.stringify(formData),
       });
@@ -66,7 +65,6 @@ export function ContactForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${adminToken}`,
         },
         body: JSON.stringify(emailPayload),
       });
@@ -86,6 +84,8 @@ export function ContactForm() {
         message: "",
       });
     } catch (error: any) {
+      console.error("Contact Form Error:", error);
+
       setErrorMessage(
         error.message || "Something went wrong. Please try again."
       );
@@ -101,6 +101,7 @@ export function ContactForm() {
       style={{ animationDelay: "0.7s" }}
     >
       <div className="grid md:grid-cols-2 gap-16">
+        {/* Left Side */}
         <div className="space-y-12">
           <div className="space-y-4">
             <h2 className="text-xs uppercase tracking-widest font-bold text-primary">
@@ -110,8 +111,8 @@ export function ContactForm() {
               Get in touch.
             </h3>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
-              I'm always open to discussing new projects, creative ideas or
-              opportunities to be part of your visions.
+              I'm always open to discussing new projects, creative ideas,
+              or opportunities to be part of your vision.
             </p>
           </div>
 
@@ -158,6 +159,7 @@ export function ContactForm() {
           </div>
         </div>
 
+        {/* Contact Form */}
         <form
           onSubmit={handleSubmit}
           className="glass-card p-8 border-white/5 space-y-6"

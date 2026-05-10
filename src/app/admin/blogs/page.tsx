@@ -31,8 +31,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`;
 
 interface Blog {
   id?: number;
@@ -64,8 +63,12 @@ export default function ManageBlogs() {
 
   // Fetch all blogs
   const fetchBlogs = async () => {
+    console.log("API URL:", API_BASE_URL);
+console.log("Blog Endpoint:", `${API_BASE_URL}/api/blog`);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/blog`);
+      const response = await fetch(`${API_BASE_URL}/api/blog`, {
+        method: "GET",
+      });
       const data = await response.json();
       setBlogs(data);
     } catch (error) {
@@ -97,6 +100,8 @@ export default function ManageBlogs() {
       });
       return;
     }
+        console.log("API_BASE_URL:", API_BASE_URL);
+console.log("Fetch URL:", `${API_BASE_URL}/api/blog`);
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/blog`, {
@@ -108,7 +113,10 @@ export default function ManageBlogs() {
         body: JSON.stringify(formData),
       });
 
+
+
       if (!response.ok) throw new Error("Failed to create blog");
+  
 
       toast({
         title: "Blog Published",
@@ -133,7 +141,7 @@ export default function ManageBlogs() {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/blog/${selectedBlogId}`,
+        `${API_BASE_URL}/api/blog/${selectedBlogId}`,
         {
           method: "PUT",
           headers: {

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Clock } from "lucide-react";
 import Link from "next/link";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL =`${process.env.NEXT_PUBLIC_API_BASE_URL}`
 
 interface BlogPost {
   id: number;
@@ -71,9 +71,10 @@ export function Blogs() {
         }
 
         const data = await response.json();
-        setPosts(data);
+        setPosts(Array.isArray(data) ? data : fallbackPosts);
       } catch (error) {
-        setPosts(fallbackPosts);
+        //updated
+        // setPosts(fallbackPosts);
         console.error("Error fetching blogs:", error);
       } finally {
         setLoading(false);
