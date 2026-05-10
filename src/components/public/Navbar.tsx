@@ -90,9 +90,9 @@ export function Navbar() {
             </Link>
           ))}
           <Button asChild variant="outline" className="w-full justify-center">
-            <a href="/resume.pdf" download="Prince_Pal_Resume.pdf">
-              <Download className="w-4 h-4 mr-2" />
-              Download Resume
+            <a href="/Ashwani_Kumar_C.V.pdf" download>
+              <Download className="w-3 h-3 mr-2" />
+              Resume
             </a>
           </Button>
         </div>
