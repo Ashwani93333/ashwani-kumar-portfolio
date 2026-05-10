@@ -1,5 +1,6 @@
 "use client";
 
+import { Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface EducationItem {
@@ -73,37 +74,93 @@ export function Education() {
     );
   }
 
-  return (
-    <section className="animate-reveal space-y-10">
-      <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-primary/60 border-l-2 border-primary pl-4">
+//   return (
+//     <section className="animate-reveal space-y-10">
+//       <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-primary/60 border-l-2 border-primary pl-4">
+//         Education
+//       </h2>
+
+//       <div className="space-y-8 ml-4">
+//         {education.map((edu) => (
+//           <div key={edu.id} className="space-y-2 group">
+//             <div className="flex justify-between items-start gap-4">
+//               <div>
+//                 <h3 className="font-headline font-bold text-sm group-hover:text-primary transition-colors">
+//                   {edu.degree}
+//                 </h3>
+
+//                 <p className="text-xs font-semibold text-muted-foreground mt-0.5">
+//                   {edu.institution}
+//                 </p>
+//               </div>
+
+//               <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground whitespace-nowrap pt-1">
+//                 {edu.duration}
+//               </p>
+//             </div>
+
+//             <p className="text-xs font-mono text-primary/80">
+//               {edu.result}
+//             </p>
+//           </div>
+//         ))}
+//       </div>
+//     </section>
+//   );
+// }
+
+return (
+  <section
+    className="animate-reveal opacity-0"
+    style={{ animationDelay: "0.4s" }}
+  >
+    <div className="space-y-12">
+      <h2 className="text-xs uppercase tracking-widest font-bold text-primary">
         Education
       </h2>
 
-      <div className="space-y-8 ml-4">
-        {education.map((edu) => (
-          <div key={edu.id} className="space-y-2 group">
-            <div className="flex justify-between items-start gap-4">
-              <div>
-                <h3 className="font-headline font-bold text-sm group-hover:text-primary transition-colors">
-                  {edu.degree}
-                </h3>
+      <div className="space-y-12">
+        {education.map((edu, idx) => (
+          <div
+            key={edu.id}
+            className="relative pl-8 border-l border-white/5 group"
+          >
+            {/* Timeline Dot */}
+            <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-background group-hover:scale-125 transition-transform" />
 
-                <p className="text-xs font-semibold text-muted-foreground mt-0.5">
-                  {edu.institution}
-                </p>
+            <div className="grid md:grid-cols-4 gap-4 md:gap-8">
+              {/* Duration */}
+              <div className="md:col-span-1">
+                <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">
+                  <Calendar className="w-3 h-3" />
+                  {edu.duration}
+                </div>
               </div>
 
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground whitespace-nowrap pt-1">
-                {edu.duration}
-              </p>
-            </div>
+              {/* Education Details */}
+              <div className="md:col-span-3 space-y-4">
+                <div className="space-y-1">
+                  <h3 className="text-xl font-headline font-bold group-hover:text-primary transition-colors">
+                    {edu.degree}
+                  </h3>
 
-            <p className="text-xs font-mono text-primary/80">
-              {edu.result}
-            </p>
+                  <div className="flex items-center gap-4 text-xs text-primary font-medium flex-wrap">
+                    <span>{edu.institution}</span>
+                  </div>
+                </div>
+
+                <div className="text-sm text-muted-foreground leading-relaxed flex gap-3">
+                  <span className="text-primary mt-1 shrink-0">▸</span>
+                  <span className="font-mono text-primary/80">
+                    {edu.result}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         ))}
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }
