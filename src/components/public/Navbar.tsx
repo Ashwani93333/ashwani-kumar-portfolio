@@ -60,7 +60,7 @@ export function Navbar() {
             size="sm"
             className="h-8 text-[11px] uppercase tracking-tighter border-primary/20 bg-primary/5 hover:bg-primary/10 text-primary font-bold"
           >
-            <a href="/Ashwani_Kumar_C.V.pdf" download>
+            <a href="/Ashwani-Kumar-Resume.pdf" download>
               <Download className="w-3 h-3 mr-2" />
               Resume
             </a>
@@ -90,7 +90,7 @@ export function Navbar() {
             </Link>
           ))}
           <Button asChild variant="outline" className="w-full justify-center">
-            <a href="/Ashwani_Kumar_C.V.pdf" download>
+            <a href="/Ashwani-Kumar-Resume.pdf" download>
               <Download className="w-3 h-3 mr-2" />
               Resume
             </a>
