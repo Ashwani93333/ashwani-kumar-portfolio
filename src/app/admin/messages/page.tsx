@@ -24,9 +24,9 @@ import {
   MessageSquare,
   Eye,
   Mail,
-  Calendar,
-  Loader2
+  Calendar
 } from "lucide-react";
+import { Skeleton } from "@/components/public/Skeleton";
 import { useToast } from "@/hooks/use-toast";
 
 interface ContactMessage {
@@ -162,8 +162,22 @@ export default function ManageMessages() {
 
       <Card className="glass-card border-white/5">
         {loading ? (
-          <div className="flex justify-center items-center py-10">
-            <Loader2 className="animate-spin w-6 h-6 text-primary" />
+          <div className="p-5 space-y-4">
+            <div className="flex items-center gap-2 font-code text-[12px] text-muted-foreground">
+              <span className="syntax-comment select-none">$</span>
+              <span className="syntax-keyword">cat</span> inbox...
+              <span className="cursor-blink" />
+            </div>
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-4">
+                <Skeleton className="w-8 h-8 rounded-full shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-3 w-1/4" />
+                  <Skeleton className="h-2.5 w-3/4" />
+                </div>
+                <Skeleton className="h-2.5 w-16" />
+              </div>
+            ))}
           </div>
         ) : (
           <Table>

@@ -14,7 +14,6 @@ import {
   FileText,
   MessageSquare,
   TrendingUp,
-  Loader2,
   ImageIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -28,6 +27,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/public/Skeleton";
 // import AIGenerator from "@/components/admin/AIGenerator";
 
 interface ContactMessage {
@@ -407,8 +407,54 @@ const handleCreateBlog = async () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <Loader2 className="animate-spin w-8 h-8 text-primary" />
+      <div className="space-y-8">
+        <div className="flex items-center gap-2 font-code text-[12px] text-muted-foreground">
+          <span className="syntax-comment select-none">$</span>
+          <span className="syntax-keyword">fetch</span> dashboard stats...
+          <span className="cursor-blink" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Card key={i} className="glass-card border-white/5">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <Skeleton className="h-3 w-28" />
+                <Skeleton className="w-4 h-4" />
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="h-6 w-12 mb-2" />
+                <Skeleton className="h-3 w-24" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <div className="grid md:grid-cols-2 gap-8">
+          <Card className="glass-card border-white/5">
+            <CardHeader>
+              <Skeleton className="h-4 w-40" />
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="flex items-start gap-4">
+                  <Skeleton className="w-8 h-8 rounded-full shrink-0" />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-3 w-1/3" />
+                    <Skeleton className="h-2.5 w-2/3" />
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+          <Card className="glass-card border-white/5">
+            <CardHeader>
+              <Skeleton className="h-4 w-32" />
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 gap-4">
+              {Array.from({ length: 2 }).map((_, i) => (
+                <Skeleton key={i} className="h-24 rounded-2xl" />
+              ))}
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }

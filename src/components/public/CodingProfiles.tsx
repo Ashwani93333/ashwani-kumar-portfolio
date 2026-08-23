@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { Award, Code2, Globe, Loader2 } from "lucide-react";
+import { Award, Code2, Globe } from "lucide-react";
+import { SkeletonCard } from "@/components/public/Skeleton";
 import Link from "next/link";
+import { SectionHeading } from "./SectionHeading";
+import { Reveal, Stagger } from "./Reveal";
 
 const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/coding-profiles`;
 
-// Demo fallback data
 const fallbackProfiles = [
   {
     id: 1,
@@ -15,8 +16,7 @@ const fallbackProfiles = [
     username: "AshwaniKumar93333",
     stats: "50+ Solved",
     link: "https://leetcode.com/u/AshwaniKumar93333/",
-    description:
-      "Consistent problem-solving in data structures, algorithms, and interview preparation.",
+    description: "Consistent problem-solving in data structures, algorithms, and interview preparation.",
   },
   {
     id: 2,
@@ -24,8 +24,7 @@ const fallbackProfiles = [
     username: "Ashwani93333",
     stats: "Continued contributions",
     link: "https://www.github.com/Ashwani93333",
-    description:
-      "Competitive programming practice with strong performance in contests and challenges.",
+    description: "Competitive programming practice with strong performance in contests and challenges.",
   },
   {
     id: 3,
@@ -33,26 +32,24 @@ const fallbackProfiles = [
     username: "ashwani_kumar",
     stats: "23+ Problems",
     link: "https://www.geeksforgeeks.org/profile/ashwanikup8by",
-    description:
-      "Hands-on coding practice focused on backend development, DSA, and technical growth.",
+    description: "Hands-on coding practice focused on backend development, DSA, and technical growth.",
   },
- 
 ];
 
-// Helper to map platform names to icons and colors
-const getPlatformStyles = (name: string) => {
-  const platform = name.toLowerCase();
-  if (platform.includes("leetcode"))
-    return { icon: Code2, color: "text-orange-400" };
-  if (platform.includes("codechef"))
-    return { icon: Award, color: "text-amber-400" };
-  if (platform.includes("geeksforgeeks"))
-    return { icon: Code2, color: "text-green-400" };
-  if (platform.includes("hackerrank"))
-    return { icon: Award, color: "text-emerald-400" };
-
-  return { icon: Code2, color: "text-blue-400" };
+const PLATFORM_STYLES: Record<string, { icon: any; color: string }> = {
+  leetcode: { icon: Code2, color: "#f5a742" },
+  codechef: { icon: Award, color: "#7fd88f" },
+  geeksforgeeks: { icon: Code2, color: "#7fd88f" },
+  hackerrank: { icon: Award, color: "#56b6c2" },
 };
+
+function platformStyle(name: string) {
+  const lower = name.toLowerCase();
+  for (const [key, style] of Object.entries(PLATFORM_STYLES)) {
+    if (lower.includes(key)) return style;
+  }
+  return { icon: Code2, color: "#fab283" };
+}
 
 export function CodingProfiles() {
   const [profiles, setProfiles] = useState<any[]>([]);
@@ -61,8 +58,10 @@ export function CodingProfiles() {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const res = await axios.get(API_BASE);
-        setProfiles(res.data);
+        const res = await fetch(API_BASE);
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        setProfiles(Array.isArray(data) ? data : fallbackProfiles);
       } catch (error) {
         console.error("Failed to fetch coding profiles, using fallback:", error);
         setProfiles(fallbackProfiles);
@@ -70,83 +69,80 @@ export function CodingProfiles() {
         setLoading(false);
       }
     };
-
     fetchProfiles();
   }, []);
 
   return (
-    <section
-      className="animate-reveal"
-      style={{ animationDelay: "0.5s" }}
-    >
-      <div className="space-y-8">
-        <div className="space-y-2">
-          <h2 className="text-xs uppercase tracking-widest font-bold text-primary">
-            Practice
-          </h2>
-          <h3 className="text-2xl font-headline font-bold">
-            Coding profiles
-          </h3>
-          <p className="text-muted-foreground text-xs">
-            Problem-solving practice.
-          </p>
+    <section id="coding-profiles" className="scroll-mt-24">
+      <Reveal>
+        <SectionHeading
+          path="~/practice.sh"
+          title="coding profiles"
+          subtitle="ssh @platform --practice — daily reps"
+        />
+      </Reveal>
+
+      {loading ? (
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <SkeletonCard key={i} lines={2} />
+          ))}
         </div>
+      ) : (
+        <Stagger className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+          {profiles.map((profile, idx) => {
+            const style = platformStyle(profile.name);
+            const Icon = style.icon;
 
-        {loading ? (
-          <div className="flex items-center justify-center py-10">
-            <Loader2 className="w-6 h-6 animate-spin text-primary opacity-50" />
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {profiles.map((profile: any) => {
-              const { icon: Icon, color } = getPlatformStyles(profile.name);
+            return (
+              <Link
+                key={profile.id}
+                href={profile.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ ["--i" as any]: idx }}
+                className="term-card term-card-hover group p-5 block relative overflow-hidden"
+              >
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/[0.04] to-transparent pointer-events-none" />
 
-              return (
-                <Link
-                  key={profile.id}
-                  href={profile.link}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  className="glass-card p-6 border-white/5 hover:bg-white/[0.04] transition-all group block"
-                >
-                  <div className="flex justify-between items-start mb-4">
-                    <div className={`p-3 rounded-2xl bg-white/5 ${color}`}>
-                      <Icon className="w-5 h-5" />
-                    </div>
-
-                    <div className="p-2 rounded-full bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Globe className="w-4 h-4 text-muted-foreground" />
-                    </div>
+                <div className="flex items-start justify-between mb-5">
+                  <div
+                    className="p-2.5 rounded border border-white/10 bg-white/[0.03] transition-transform group-hover:scale-110 group-hover:-rotate-3"
+                    style={{ color: style.color }}
+                  >
+                    <Icon className="w-5 h-5" />
                   </div>
+                  <Globe className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
 
-                  <div className="space-y-1">
-                    <h4 className="text-lg font-headline font-bold flex items-center gap-2">
+                <div className="font-code space-y-1.5">
+                  <div className="flex gap-2 text-[12px]">
+                    <span className="syntax-constant select-none">$</span>
+                    <span className="text-muted-foreground">connect</span>
+                    <span className="text-foreground font-semibold group-hover:text-primary transition-colors">
                       {profile.name}
-                      <span className="text-[10px] font-normal text-muted-foreground uppercase tracking-widest">
-                        {profile.stats}
-                      </span>
-                    </h4>
-
-                    <p className="text-xs text-primary font-bold">
-                      {profile.username}
-                    </p>
-
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      {profile.description}
-                    </p>
+                    </span>
                   </div>
-                </Link>
-              );
-            })}
-          </div>
-        )}
+                  <div className="flex gap-2 text-[12px]">
+                    <span className="syntax-property select-none">→</span>
+                    <span className="syntax-string">{profile.username}</span>
+                  </div>
+                  <div className="flex gap-2 text-[10px]">
+                    <span className="syntax-keyword select-none">[ </span>
+                    <span className="text-muted-foreground">{profile.stats}</span>
+                    <span className="syntax-keyword select-none"> ]</span>
+                  </div>
+                </div>
 
-        {!loading && profiles.length === 0 && (
-          <p className="text-xs text-muted-foreground italic text-center py-4">
-            No coding profiles linked yet.
-          </p>
-        )}
-      </div>
+                <p className="mt-4 text-[11px] font-code text-muted-foreground leading-relaxed border-t border-white/[0.06] pt-3">
+                  <span className="syntax-comment select-none"># </span>
+                  {profile.description}
+                </p>
+              </Link>
+            );
+          })}
+        </Stagger>
+      )}
     </section>
   );
 }

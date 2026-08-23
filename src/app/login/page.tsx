@@ -78,7 +78,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Rocket, ShieldCheck } from "lucide-react";
+import { CoderLogo } from "@/components/public/CoderLogo";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -137,28 +137,39 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background">
-      <div className="absolute top-8 left-8">
-        <Link
-          href="/"
-          className="flex items-center gap-2 font-headline font-bold text-xl"
-        >
-          <Rocket className="w-6 h-6 text-primary" />
-          <span className="text-gradient">PortfoForge</span>
+      <div className="absolute top-8 left-8 flex items-center gap-2 font-code text-[13px]">
+        <Link href="/" className="flex items-center gap-2 group">
+          <CoderLogo className="transition-transform group-hover:scale-110" />
+          <span>
+            <span className="syntax-constant select-none">ashwani</span>
+            <span className="text-muted-foreground select-none">@</span>
+            <span className="syntax-property select-none">admin</span>
+            <span className="text-muted-foreground select-none">:~$</span>
+          </span>
         </Link>
       </div>
 
-      <Card className="w-full max-w-md glass-card border-white/10">
+      <Card className="w-full max-w-md glass-card border-white/10 overflow-hidden">
+        <div className="flex items-center gap-3 px-5 py-2.5 border-b border-white/[0.06] bg-white/[0.02] font-code text-[10px] text-muted-foreground">
+          <CoderLogo glow={false} />
+          <span className="syntax-keyword select-none">auth</span>
+          <span className="text-muted-foreground">--require</span>
+          <span className="syntax-string">"admin"</span>
+          <span className="ml-auto text-success">● secure</span>
+        </div>
+
         <CardHeader className="space-y-1 text-center">
-          <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-            <ShieldCheck className="w-6 h-6 text-primary" />
+          <div className="mx-auto w-12 h-12 rounded-md bg-primary/10 border border-primary/30 flex items-center justify-center mb-4 font-code text-lg text-primary shadow-[0_0_14px_rgba(250,178,131,0.25)]">
+            &lt;/&gt;
           </div>
 
-          <CardTitle className="text-2xl font-headline font-bold">
-            Admin Login
+          <CardTitle className="text-2xl font-headline font-bold font-code">
+            admin.login<span className="text-primary">()</span>
           </CardTitle>
 
-          <CardDescription>
-            Enter your credentials to access the dashboard
+          <CardDescription className="font-code text-[12px]">
+            <span className="syntax-comment"># </span>
+            enter credentials to access the dashboard
           </CardDescription>
         </CardHeader>
 

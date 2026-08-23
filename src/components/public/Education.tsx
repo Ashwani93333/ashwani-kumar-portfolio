@@ -1,7 +1,10 @@
 "use client";
 
-import { Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
+import { GraduationCap } from "lucide-react";
+import { SectionHeading } from "./SectionHeading";
+import { Reveal } from "./Reveal";
+import { Skeleton } from "@/components/public/Skeleton";
 
 interface EducationItem {
   id: number;
@@ -43,13 +46,9 @@ export function Education() {
     const fetchEducation = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/education`);
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch education data");
-        }
-
+        if (!response.ok) throw new Error("Failed to fetch education data");
         const data = await response.json();
-        setEducation(data);
+        setEducation(Array.isArray(data) ? data : fallbackEducation);
       } catch (error) {
         setEducation(fallbackEducation);
         console.error("Error fetching education data:", error);
@@ -57,110 +56,87 @@ export function Education() {
         setLoading(false);
       }
     };
-
     fetchEducation();
   }, []);
 
-  if (loading) {
-    return (
-      <section className="animate-reveal space-y-10">
-        <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-primary/60 border-l-2 border-primary pl-4">
-          Education
-        </h2>
-        <p className="text-xs text-muted-foreground ml-4">
-          Loading education data...
-        </p>
-      </section>
-    );
-  }
+  return (
+    <section id="education" className="scroll-mt-24">
+      <Reveal>
+        <SectionHeading
+          path="~/education"
+          title="education"
+          subtitle="tree ~/academics/ — degrees & scores"
+        />
+      </Reveal>
 
-//   return (
-//     <section className="animate-reveal space-y-10">
-//       <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-primary/60 border-l-2 border-primary pl-4">
-//         Education
-//       </h2>
-
-//       <div className="space-y-8 ml-4">
-//         {education.map((edu) => (
-//           <div key={edu.id} className="space-y-2 group">
-//             <div className="flex justify-between items-start gap-4">
-//               <div>
-//                 <h3 className="font-headline font-bold text-sm group-hover:text-primary transition-colors">
-//                   {edu.degree}
-//                 </h3>
-
-//                 <p className="text-xs font-semibold text-muted-foreground mt-0.5">
-//                   {edu.institution}
-//                 </p>
-//               </div>
-
-//               <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground whitespace-nowrap pt-1">
-//                 {edu.duration}
-//               </p>
-//             </div>
-
-//             <p className="text-xs font-mono text-primary/80">
-//               {edu.result}
-//             </p>
-//           </div>
-//         ))}
-//       </div>
-//     </section>
-//   );
-// }
-
-return (
-  <section
-    className="animate-reveal opacity-0"
-    style={{ animationDelay: "0.4s" }}
-  >
-    <div className="space-y-12">
-      <h2 className="text-xs uppercase tracking-widest font-bold text-primary">
-        Education
-      </h2>
-
-      <div className="space-y-12">
-        {education.map((edu, idx) => (
-          <div
-            key={edu.id}
-            className="relative pl-8 border-l border-white/5 group"
-          >
-            {/* Timeline Dot */}
-            <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-background group-hover:scale-125 transition-transform" />
-
-            <div className="grid md:grid-cols-4 gap-4 md:gap-8">
-              {/* Duration */}
-              <div className="md:col-span-1">
-                <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">
-                  <Calendar className="w-3 h-3" />
-                  {edu.duration}
-                </div>
-              </div>
-
-              {/* Education Details */}
-              <div className="md:col-span-3 space-y-4">
-                <div className="space-y-1">
-                  <h3 className="text-xl font-headline font-bold group-hover:text-primary transition-colors">
-                    {edu.degree}
-                  </h3>
-
-                  <div className="flex items-center gap-4 text-xs text-primary font-medium flex-wrap">
-                    <span>{edu.institution}</span>
+      {loading ? (
+        <Reveal delay={80}>
+          <div className="mt-8 term-card overflow-hidden">
+            <div className="flex items-center gap-3 px-5 py-2.5 border-b border-white/[0.06] bg-white/[0.02] font-code text-[10px] text-muted-foreground">
+              <GraduationCap className="w-3.5 h-3.5 text-[#9d7cd8]" />
+              <span>tree -a --level 2</span>
+              <span className="ml-auto text-success">● growing...</span>
+            </div>
+            <div className="p-5 md:p-6 space-y-2 font-code">
+              <Skeleton className="h-3 w-24" />
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="flex items-start gap-3 pl-4">
+                  <Skeleton className="h-3 w-3 mt-0.5 shrink-0" />
+                  <div className="space-y-1.5 flex-1">
+                    <Skeleton className="h-3 w-1/2" />
+                    <Skeleton className="h-2.5 w-3/4" />
                   </div>
                 </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      ) : (
+        <div className="mt-8 term-card overflow-hidden">
+          <div className="flex items-center gap-3 px-5 py-2.5 border-b border-white/[0.06] bg-white/[0.02] font-code text-[10px] text-muted-foreground">
+            <GraduationCap className="w-3.5 h-3.5 text-[#9d7cd8]" />
+            <span>tree -a --level 2</span>
+            <span className="ml-auto text-success">● {education.length} nodes</span>
+          </div>
 
-                <div className="text-sm text-muted-foreground leading-relaxed flex gap-3">
-                  <span className="text-primary mt-1 shrink-0">▸</span>
-                  <span className="font-mono text-primary/80">
-                    {edu.result}
-                  </span>
-                </div>
+          <div className="p-5 md:p-6">
+            <div className="font-code text-[12px] leading-relaxed space-y-1">
+              <div className="syntax-keyword">~/academics</div>
+              <div className="pl-4">
+                {education.map((edu, idx) => (
+                  <Reveal key={edu.id} delay={idx * 70} as="div">
+                    <div className="py-2.5 group relative pl-4 border-l border-white/[0.07] group-hover:border-[#9d7cd8]/40 transition-colors">
+                      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                        <span className="syntax-property select-none">
+                          {idx === education.length - 1 ? "└──" : "├──"}
+                        </span>
+                        <span className="syntax-keyword">[</span>
+                        <span className="text-foreground font-semibold group-hover:text-[#9d7cd8] transition-colors">
+                          {edu.degree}
+                        </span>
+                        <span className="syntax-keyword">]</span>
+                      </div>
+
+                      <div className="pl-6 flex flex-wrap gap-x-4 gap-y-0.5 text-[11px] text-muted-foreground">
+                        <span>
+                          <span className="syntax-comment">dir:</span> {edu.institution}
+                        </span>
+                        <span>
+                          <span className="syntax-comment">period:</span> {edu.duration}
+                        </span>
+                      </div>
+
+                      <div className="pl-6 text-[11px]">
+                        <span className="syntax-string">✓ {edu.result}</span>
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
               </div>
             </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
+        </div>
+      )}
+    </section>
+  );
 }

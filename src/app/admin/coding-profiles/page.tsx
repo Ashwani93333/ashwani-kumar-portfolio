@@ -10,7 +10,8 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Plus, Pencil, Trash2, Binary, Loader2, ExternalLink, ShieldAlert } from "lucide-react";
+import { Plus, Pencil, Trash2, Binary, ExternalLink, ShieldAlert } from "lucide-react";
+import { Skeleton } from "@/components/public/Skeleton";
 import { useToast } from "@/hooks/use-toast";
 
 const API_BASE = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/coding-profiles`;
@@ -181,7 +182,19 @@ const handleDelete = async (id: number) => {
           </TableHeader>
           <TableBody>
             {loading ? (
-              <TableRow><TableCell colSpan={4} className="text-center py-10"><Loader2 className="animate-spin mx-auto opacity-50" /></TableCell></TableRow>
+              <TableRow><TableCell colSpan={4} className="py-6">
+                <div className="space-y-4">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <div key={i} className="flex items-center gap-4">
+                      <Skeleton className="w-8 h-8 rounded shrink-0" />
+                      <div className="flex-1 space-y-2">
+                        <Skeleton className="h-3 w-1/4" />
+                        <Skeleton className="h-2.5 w-2/3" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </TableCell></TableRow>
             ) : profiles.map((p: any) => (
               <TableRow key={p.id} className="border-white/5 hover:bg-white/5 transition-colors">
                 <TableCell>

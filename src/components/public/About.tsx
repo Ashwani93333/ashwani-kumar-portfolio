@@ -1,117 +1,141 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
-import { Terminal } from "lucide-react";
+import { TerminalWindow } from "./TerminalWindow";
+import { SectionHeading } from "./SectionHeading";
+import { Skeleton } from "@/components/public/Skeleton";
 
 export function About() {
-  // ✅ STATES
   const [fullName, setFullName] = useState("Ashwani Kumar");
-  const [professionalBio, setProfessionalBio] = useState("Backend Developer skilled in building secure and scalable applications using Spring Boot, integrating Machine Learning and AI-powered solutions with Python. Experienced in developing RESTful APIs, database management, authentication systems, and connecting intelligent models with production-grade backend architectures. Passionate about creating efficient, data-driven applications that combine robust server-side engineering with modern AI capabilities.");
-  const [engineeringPhilosophy, setengineeringPhilosophy] = useState<string[]>(["Clear APIs and testable code over clever one-offs.",
+  const [professionalBio, setProfessionalBio] = useState(
+    "Backend Developer skilled in building secure and scalable applications using Spring Boot, integrating Machine Learning and AI-powered solutions with Python."
+  );
+  const [philosophy, setPhilosophy] = useState<string[]>([
+    "Clear APIs and testable code over clever one-offs.",
     "Data modeling that stays understandable as requirements change.",
-    "Ship incrementally—small, working pieces beat big plans.",
-    "Learn in public: side projects over only coursework."]);
+    "Ship incrementally — small, working pieces beat big plans.",
+    "Learn in public: side projects over only coursework.",
+  ]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ FETCH PROFILE DATA
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/profile`
-        );
-
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/profile`);
         if (!res.ok) throw new Error("Failed to fetch");
-
         const data = await res.json();
-
-        // ✅ SET DATA FROM API
-        setFullName(data.fullName || "Ashwani Kumar");
-        setProfessionalBio(
-          data.professionalBio ||
-          "Java + Spring Boot for production backend. Learning Go for systems. React / Next.js for interfaces."
-        );
-        setengineeringPhilosophy(
-          data.engineeringPhilosophy || [
-            "Clear APIs and testable code over clever one-offs.",
-            "Data modeling that stays understandable as requirements change.",
-            "Ship incrementally—small, working pieces beat big plans.",
-            "Learn in public: side projects over only coursework.",
-          ]
-        );
+        if (data.fullName) setFullName(data.fullName);
+        if (data.professionalBio) setProfessionalBio(data.professionalBio);
+        if (data.engineeringPhilosophy) setPhilosophy(data.engineeringPhilosophy);
       } catch (err) {
         console.error("Error fetching profile:", err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchProfile();
   }, []);
 
   return (
-    <section
-      id="about"
-      className="animate-reveal opacity-0 [animation-fill-mode:forwards]"
-    >
-      <div className="grid md:grid-cols-[1fr_2fr] gap-12">
-        <div className="space-y-4">
-          <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-primary/80">
-            About
-          </h2>
+    <section id="about" className="scroll-mt-24">
+      <SectionHeading
+        path="~/about.md"
+        title="whoami"
+        subtitle={`$ cat about.md — ${fullName}`}
+      />
 
-          <div className="space-y-6">
-            <h3 className="text-xl font-headline font-bold leading-tight">
-              {loading ? "Loading..." : fullName}
-            </h3>
+      <div className="mt-8 grid lg:grid-cols-[1.1fr_1fr] gap-8">
+        {/* Biography as markdown */}
+        <TerminalWindow title="about.md — markdown" bodyClassName="p-6">
+            <div className="font-code text-[13px] leading-relaxed space-y-4">
+              <div className="flex gap-3">
+                <span className="syntax-constant shrink-0 select-none">$</span>
+                <span className="syntax-comment"># whoami</span>
+              </div>
 
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {loading
-                ? "Fetching data..."
-                : professionalBio}
-            </p>
-          </div>
-        </div>
+              <div className="space-y-3 text-muted-foreground">
+                <p>
+                  <span className="syntax-keyword">### </span>
+                  <span className="text-foreground font-semibold">{fullName}</span>
+                  <span className="syntax-keyword"> ()</span>
+                </p>
 
-        <div className="space-y-8">
-          {/* Static paragraphs (you can also make these dynamic later) */}
-          <div className="space-y-4 text-sm text-muted-foreground leading-relaxed max-w-2xl">
-            <p>
-              B.Tech in Computer Science and Specialization in Artificial Intelligence (expected May 2029). I’ve worked as a Software Developer Intern at{" "}
-              <span className="text-foreground font-medium">JPMorgan Chase & Co.</span> as a Backend Developer Intern Through Virtual Internship Program.{" "}
-              {/* <span className="text-foreground font-medium"></span>. */}
-            </p>
-          </div>
+                <p className="whitespace-pre-line">
+                  {loading ? (
+                    <span className="inline-flex flex-col gap-1.5 w-full">
+                      <Skeleton className="h-3 w-11/12" />
+                      <Skeleton className="h-3 w-3/4" />
+                    </span>
+                  ) : (
+                    <span className="syntax-string">{professionalBio}</span>
+                  )}
+                </p>
 
-          {/* 🔥 PHILOSOPHY (DYNAMIC) */}
-          <div className="p-6 rounded-2xl bg-secondary/30 border border-white/5 space-y-4 relative overflow-hidden group">
-            <div className="absolute top-0 left-0 w-1 h-full bg-primary/40 group-hover:bg-primary transition-colors" />
-
-            <div className="flex items-center gap-2 text-[10px] font-mono text-primary/60 uppercase tracking-widest mb-2">
-              <Terminal className="w-3 h-3" />
-              <span>Philosophy</span>
+                <div className="pt-2 space-y-1.5">
+                  <div className="flex gap-2">
+                    <span className="syntax-property">education</span>
+                    <span className="syntax-punct">:</span>
+                    <span className="syntax-string">B.Tech CSE (AI) — GL Bajaj</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="syntax-property">internships</span>
+                    <span className="syntax-punct">:</span>
+                    <span className="syntax-string">JPMorgan Chase & Co. · HPE</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="syntax-property">focus</span>
+                    <span className="syntax-punct">:</span>
+                    <span className="syntax-string">scalable backends · AI integration</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="syntax-property">location</span>
+                    <span className="syntax-punct">:</span>
+                    <span className="syntax-string">Remote / India</span>
+                  </div>
+                </div>
+              </div>
             </div>
+          </TerminalWindow>
 
-            <div className="font-mono text-xs space-y-3">
-              <div className="flex gap-2 text-primary/80">
-                <span>$</span>
-                <span className="text-foreground">philosophy</span>
+        {/* Engineering philosophy as comments */}
+        <TerminalWindow title="philosophy.js" bodyClassName="p-6">
+            <div className="font-code text-[12px] leading-relaxed space-y-2.5">
+              <div className="flex gap-3">
+                <span className="syntax-constant shrink-0 select-none">$</span>
+                <span className="syntax-keyword">philosophy</span>
+                <span className="text-muted-foreground">() {"{"}</span>
               </div>
 
               {loading ? (
-                <p className="text-muted-foreground">Loading...</p>
+                <div className="space-y-2.5 pl-6">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <Skeleton key={i} className="h-3 w-full max-w-[70%]" />
+                  ))}
+                </div>
               ) : (
-                engineeringPhilosophy.map((item, idx) => (
-                  <div key={idx} className="flex gap-3 pl-2">
-                    <span className="text-primary/40">›</span>
-                    <p className="text-muted-foreground">{item}</p>
+                philosophy.map((item, idx) => (
+                  <div key={idx} className="flex gap-3 pl-6">
+                    <span className="syntax-comment shrink-0 select-none">//</span>
+                    <span className="text-muted-foreground">{item}</span>
                   </div>
                 ))
               )}
+
+              <div className="flex gap-3">
+                <span className="text-muted-foreground pl-6 select-none">{"}"}</span>
+              </div>
+
+              <div className="pt-2 border-t border-white/[0.06]">
+                <div className="flex items-center gap-2 text-success">
+                  <span className="live-dot w-1.5 h-1.5 rounded-full bg-success" />
+                  <span className="syntax-keyword">OK</span>
+                  <span className="text-muted-foreground/70">
+                    — 4 principles loaded
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </TerminalWindow>
       </div>
     </section>
   );
